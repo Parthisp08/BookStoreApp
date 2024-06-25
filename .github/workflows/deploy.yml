@@ -1,0 +1,30 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to server
+      env:
+        SERVER_DETAILS: ${{ secrets.SERVER_DETAILS }}
+      run: |
+        SERVER_USERNAME=$(echo $SERVER_DETAILS | sed 's/.*USERNAME:\([^|]*\).*/\1/')
+        SERVER_PASSWORD=$(echo $SERVER_DETAILS | sed 's/.*PASSWORD:\([^|]*\).*/\1/')
+        SERVER_PORT=$(echo $SERVER_DETAILS | sed 's/.*PORT:\([^|]*\).*/\1/')
+        SERVER_HOST=$(echo $SERVER_DETAILS | sed 's/.*HOST:\([^|]*\).*/\1/')
+
+        echo "Deploying to $SERVER_HOST:$SERVER_PORT"
+        scp -P $SERVER_PORT -o StrictHostKeyChecking=no -r ./build/* $SERVER_USERNAME@$SERVER_HOST:/path/to/deployment/folder
+        ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_HOST << 'EOF'
+          cd /path/to/deployment/folder
+          # Add any additional deployment commands here
+        EOF

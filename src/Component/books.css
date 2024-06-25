@@ -1,0 +1,40 @@
+.bookDiv {
+  background-color: #8794ad;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.bkTbl{
+    border: 1px solid white;
+}
+
+
+.bookForm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    padding: 20px;
+    background: #c2c8d4;
+    color: black;
+    z-index: 1000;
+  }
+  
+  .bookForm form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bookForm form label {
+    margin-bottom: 10px;
+  }
+  
+  .bookForm form button {
+    margin-top: 10px;
+  }
